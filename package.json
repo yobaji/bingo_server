@@ -1,0 +1,13 @@
+{
+  "name": "bingo_server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "node index",
+    "serve-dev": "nodemon index"
+  },
+  "dependencies": {
+    "colyseus": "^0.11.20",
+    "express": "^4.17.1"
+  }
+}
