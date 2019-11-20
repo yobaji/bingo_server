@@ -6,9 +6,11 @@ const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
 
 const port = process.env.PORT || 6061;
-console.log(process.env.PORT);
+
 const app = express();
 app.use(express.json());
+
+app.use(express.static('public'));
 
 const gameServer = new colyseus.Server({
   server: http.createServer(app),
