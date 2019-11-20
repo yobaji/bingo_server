@@ -5,7 +5,7 @@ const express = require("express");
 const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
 
-const port = 6061;
+const port = process.env.port || 6061;
 
 const app = express();
 app.use(express.json());
