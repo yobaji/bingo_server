@@ -6,7 +6,7 @@ const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
 
 const port = process.env.port || 6061;
-
+console.log(process.env.port);
 const app = express();
 app.use(express.json());
 
