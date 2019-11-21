@@ -39,13 +39,13 @@ exports.room = class extends colyseus.Room {
             }
 
             // allow disconnected client to reconnect into this room until 20 seconds
-            await this.allowReconnection(client, 200000);
+            await this.allowReconnection(client, 20);
 
             // client returned! let's re-activate it.
             this.state.playerOnline(client.sessionId, this);
 
         } catch (e) {
-            // this.state.removePlayer(client.sessionId, this);
+            this.state.removePlayer(client.sessionId, this);
         }
     }
 

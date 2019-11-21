@@ -109,7 +109,7 @@ class State extends Schema {
             case "START_GAME":
                 if (playerId == this.adminPlayer) {
                     room.clock.start();
-                    this.restartGame();
+                    this.restartGame(room);
                     this.gameStarted = true;
                     room.lock();
                 }
@@ -120,17 +120,17 @@ class State extends Schema {
                 }
                 break;
             case "REMOVE_PLAYER":
-                this.removePlayer(clientId);
+                this.removePlayer(clientId, room);
                 break;
             default:
                 break;
         }
     }
-    restartGame() {
+    restartGame(room) {
         this.currentPlayer = this.chooseRandomCurrentPlayer();
         for (let playerId in this.players) {
             if (!this.players[playerId].isOnline) {
-                this.removePlayer(this.players[playerId].playerClientId);
+                this.removePlayer(this.players[playerId].playerClientId, room);
             }
             else {
                 this.players[playerId].resetPlayer();
@@ -193,7 +193,7 @@ class State extends Schema {
         const playerId = this.findPlayerId(clientId);
         this.players[playerId].isOnline = true;
     }
-    removePlayer(clientId) {
+    removePlayer(clientId, room) {
         const playerId = this.findPlayerId(clientId);
         if (this.gameStarted) {
             this.players[playerId].isOnline = false;
@@ -213,6 +213,9 @@ class State extends Schema {
             this.gameStarted = false;
             var emptyArray = new ArraySchema();
             this.players[this.currentPlayer].strikedCells = emptyArray;
+        }
+        if (!this.onlinePlayersCount) {
+            room.lock();
         }
     }
 }
