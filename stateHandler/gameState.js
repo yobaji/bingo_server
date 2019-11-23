@@ -96,7 +96,8 @@ class State extends Schema {
         this.currentPlayer = this.findNextPlayer(this.currentPlayer);
         this.runGameLogic(room);
     }
-    handleMessage(clientId, message, room) {
+    handleMessage(clientObject, message, room) {
+        const clientId = clientObject.sessionId;
         const playerId = this.findPlayerId(clientId);
         if (!this.players[playerId]) return;
         switch (message.type) {
@@ -107,7 +108,7 @@ class State extends Schema {
                 }
                 break;
             case "START_GAME":
-                if (playerId == this.adminPlayer) {
+                if (playerId == this.adminPlayer && this.onlinePlayersCount > 1) {
                     room.clock.start();
                     this.restartGame(room);
                     this.gameStarted = true;
@@ -119,8 +120,14 @@ class State extends Schema {
                     this.players[playerId].shuffleCells();
                 }
                 break;
+            case "RE_OPEN_ROOM":
+                if (!this.gameStarted) {
+                    this.restartGame(room);
+                    room.unlock();
+                }
+                break;
             case "REMOVE_PLAYER":
-                this.removePlayer(clientId, room);
+                this.removePlayer(clientId, room, clientObject);
                 break;
             default:
                 break;
@@ -153,7 +160,6 @@ class State extends Schema {
         }
         if (isGameCompleted) {
             this.gameStarted = false;
-            room.unlock();
         }
     }
     allStrikedCells() {
@@ -193,7 +199,10 @@ class State extends Schema {
         const playerId = this.findPlayerId(clientId);
         this.players[playerId].isOnline = true;
     }
-    removePlayer(clientId, room) {
+    removePlayer(clientId, room, clientObject) {
+        if (clientObject) {
+            clientObject.close();
+        }
         const playerId = this.findPlayerId(clientId);
         if (this.gameStarted) {
             this.players[playerId].isOnline = false;

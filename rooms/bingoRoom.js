@@ -28,7 +28,7 @@ exports.room = class extends colyseus.Room {
     }
 
     onMessage(client, message) {
-        this.state.handleMessage(client.sessionId, message, this);
+        this.state.handleMessage(client, message, this);
     }
 
     async onLeave(client, consented) {
@@ -45,7 +45,7 @@ exports.room = class extends colyseus.Room {
             this.state.playerOnline(client.sessionId, this);
 
         } catch (e) {
-            this.state.removePlayer(client.sessionId, this);
+            client.close();
         }
     }
 
