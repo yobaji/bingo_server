@@ -128,12 +128,15 @@ class State extends Schema {
                 break;
             case "RE_OPEN_ROOM":
                 if (!this.gameStarted) {
-                    this.restartGame(room);
                     room.unlock();
+                    this.restartGame(room);
                 }
                 break;
             case "REMOVE_PLAYER":
                 this.removePlayer(clientId, room, clientObject);
+                break;
+            case "POP_EMOJI":
+                room.broadcast({ type: "POP_EMOJI", emojiName: message.emojiName, playerId: clientId }, { except: clientObject });
                 break;
             default:
                 break;
@@ -188,6 +191,7 @@ class State extends Schema {
     }
     playerOnline(clientId, room) {
         this.delayed.clear();
+        if (!this.players[clientId]) return;
         this.players[clientId].isOnline = true;
     }
     removePlayer(clientId, room, clientObject) {
