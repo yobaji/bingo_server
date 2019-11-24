@@ -22,7 +22,7 @@ exports.room = class extends colyseus.Room {
     onJoin(client, options) {
         this.state.createPlayer(
             client.sessionId,
-            options.player.id,
+            options.player.uuid,
             options.player.name
         );
     }
@@ -33,18 +33,20 @@ exports.room = class extends colyseus.Room {
 
     async onLeave(client, consented) {
         this.state.playerOffline(client.sessionId, this);
+        let rejoinTimeout = this.locked ? 20 : 0;
         try {
             if (consented) {
                 throw new Error("consented leave");
             }
 
             // allow disconnected client to reconnect into this room until 20 seconds
-            await this.allowReconnection(client, 20);
+            await this.allowReconnection(client, rejoinTimeout);
 
             // client returned! let's re-activate it.
             this.state.playerOnline(client.sessionId, this);
 
         } catch (e) {
+            this.state.removePlayer(client.sessionId, this);
             client.close();
         }
     }

@@ -26,7 +26,7 @@ class Player extends Schema {
     }
 }
 schema.defineTypes(Player, {
-    playerClientId: "string",
+    playerUuid: "string",
     cellArray: [Cell],
     strikedCells: ["number"],
     playerName: "string",

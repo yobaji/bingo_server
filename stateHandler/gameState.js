@@ -19,13 +19,27 @@ class State extends Schema {
         // initialize a dummy delayed Instance
         this.delayed = { clear: () => { } }
     }
-    get playerIDS() {
+    get clientIDS() {
         return Object.keys(this.players);
     }
+    get playerUUIDS() {
+        return Object.keys(this.players).map((playerId) => {
+            return this.players[playerId].playerUuid;
+        });
+    }
     get onlinePlayersCount() {
-        return Object.keys(this.players).filter((playerId) => {
-            return this.players[playerId].isOnline
+        return Object.keys(this.players).filter((clientId) => {
+            return this.players[clientId].isOnline
         }).length;
+    }
+    get allStrikedCells() {
+        let allStrikedCells = [];
+        for (var clientId in this.players) {
+            allStrikedCells = allStrikedCells.concat(
+                this.players[clientId].strikedCells
+            );
+        }
+        return allStrikedCells;
     }
     eachTimeFrame(elapsedTime, room) {
         const elapsedTimeInSec = parseInt(elapsedTime / 1000);
@@ -49,48 +63,41 @@ class State extends Schema {
         const allStrikedCells = (new GameLogic(this)).getAllStrikedCells;
         return helper.array.findRandomFromNonStriked(allStrikedCells);
     }
-    findPlayerId(clientId) {
-        for (let playerId in this.players) {
-            if (this.players[playerId].playerClientId == clientId) {
-                return playerId;
-            }
-        }
-    }
     findNewAdmin() {
-        for (let playerId in this.players) {
-            if (!this.players[playerId].isOnline) continue;
-            return playerId;
+        for (let clientId in this.players) {
+            if (!this.players[clientId].isOnline) continue;
+            return clientId;
         }
         return null;
     }
     findNextPlayer(currentPlayer) {
-        let nextPlayerIdIndex = this.playerIDS.indexOf(currentPlayer) + 1;
-        let nextPlayerId = this.playerIDS[nextPlayerIdIndex];
-        if (!nextPlayerId) {
-            nextPlayerId = this.playerIDS[0];
+        let nextClientIdIndex = this.clientIDS.indexOf(currentPlayer) + 1;
+        let nextClientId = this.clientIDS[nextClientIdIndex];
+        if (!nextClientId) {
+            nextClientId = this.clientIDS[0];
         }
-        return nextPlayerId;
+        return nextClientId;
     }
-    createPlayer(clientId, playerId, playerName) {
+    createPlayer(clientId, playerUuid, playerName) {
         // if player already exists continue the play
-        if (this.playerIDS.indexOf(playerId) >= 0) {
+        if (this.clientIDS.indexOf(clientId) >= 0) {
             return;
         }
         if (playerName.trim() == '') {
             playerName = 'Mr No Name'
         }
-        this.players[playerId] = new Player();
-        this.players[playerId].playerClientId = clientId;
-        this.players[playerId].playerName = playerName;
+        this.players[clientId] = new Player();
+        this.players[clientId].playerUuid = playerUuid;
+        this.players[clientId].playerName = playerName;
         if (!this.currentPlayer) {
-            this.currentPlayer = playerId;
-            this.adminPlayer = playerId;
+            this.currentPlayer = clientId;
+            this.adminPlayer = clientId;
         }
         this.gameStarted = false;
     }
     playMyTurn(number, room) {
         room.clock.start();
-        if (this.allStrikedCells().indexOf(number) >= 0) return;
+        if (this.allStrikedCells.indexOf(number) >= 0) return;
         const currentPlayer = this.currentPlayer;
         this.players[currentPlayer].strikedCells.push(number);
         this.currentPlayer = this.findNextPlayer(this.currentPlayer);
@@ -98,17 +105,16 @@ class State extends Schema {
     }
     handleMessage(clientObject, message, room) {
         const clientId = clientObject.sessionId;
-        const playerId = this.findPlayerId(clientId);
-        if (!this.players[playerId]) return;
+        if (!this.players[clientId]) return;
         switch (message.type) {
             case "PLAY_MY_TURN":
                 const currentPlayer = this.currentPlayer;
-                if (currentPlayer == playerId) {
+                if (currentPlayer == clientId) {
                     this.playMyTurn(message.number, room);
                 }
                 break;
             case "START_GAME":
-                if (playerId == this.adminPlayer && this.onlinePlayersCount > 1) {
+                if (clientId == this.adminPlayer && this.onlinePlayersCount > 1) {
                     room.clock.start();
                     this.restartGame(room);
                     this.gameStarted = true;
@@ -117,7 +123,7 @@ class State extends Schema {
                 break;
             case "PLAYER_SHUFFLE_CELLS":
                 if (!this.gameStarted) {
-                    this.players[playerId].shuffleCells();
+                    this.players[clientId].shuffleCells();
                 }
                 break;
             case "RE_OPEN_ROOM":
@@ -135,26 +141,26 @@ class State extends Schema {
     }
     restartGame(room) {
         this.currentPlayer = this.chooseRandomCurrentPlayer();
-        for (let playerId in this.players) {
-            if (!this.players[playerId].isOnline) {
-                this.removePlayer(this.players[playerId].playerClientId, room);
+        for (let clientId in this.players) {
+            if (!this.players[clientId].isOnline) {
+                this.removePlayer(clientId, room);
             }
             else {
-                this.players[playerId].resetPlayer();
+                this.players[clientId].resetPlayer();
             }
         }
     }
     chooseRandomCurrentPlayer() {
-        return this.playerIDS[Math.floor(Math.random() * this.playerIDS.length)]
+        return this.clientIDS[Math.floor(Math.random() * this.clientIDS.length)]
     }
     runGameLogic(room) {
         const GLogic = new GameLogic(this);
         const playerLogics = GLogic.players;
         let isGameCompleted = false;
-        for (let playerId in playerLogics) {
-            this.players[playerId].isWon = playerLogics[playerId].isWon;
-            if (this.players[playerId].isWon && this.gameStarted) {
-                this.players[playerId].winCount++;
+        for (let clientId in playerLogics) {
+            this.players[clientId].isWon = playerLogics[clientId].isWon;
+            if (this.players[clientId].isWon && this.gameStarted) {
+                this.players[clientId].winCount++;
                 isGameCompleted = true;
             }
         }
@@ -162,30 +168,19 @@ class State extends Schema {
             this.gameStarted = false;
         }
     }
-    allStrikedCells() {
-        let allStrikedCells = [];
-        for (var playerId in this.players) {
-            allStrikedCells = allStrikedCells.concat(
-                this.players[playerId].strikedCells
-            );
-        }
-        return allStrikedCells;
-    }
     playerOffline(clientId, room) {
-        const playerId = this.findPlayerId(clientId);
-        if (playerId == this.currentPlayer) {
+        if (clientId == this.currentPlayer) {
             room.clock.start();
         }
-        if (!this.players[playerId]) return;
-        this.players[playerId].isOnline = false;
+        if (!this.players[clientId]) return;
+        this.players[clientId].isOnline = false;
         if (
-            playerId == this.adminPlayer &&
-            this.playerIDS.length && this.onlinePlayersCount
+            clientId == this.adminPlayer &&
+            this.clientIDS.length && this.onlinePlayersCount
         ) {
             this.adminPlayer = this.findNewAdmin();
         }
         if (!this.onlinePlayersCount) {
-            room.lock();
             this.delayed = room.clock.setTimeout(() => {
                 room.disconnect();
             }, config.adminRejoinBeforeRoomClose * 1000);
@@ -193,32 +188,27 @@ class State extends Schema {
     }
     playerOnline(clientId, room) {
         this.delayed.clear();
-        if (!this.gameStarted) {
-            room.unlock();
-        }
-        const playerId = this.findPlayerId(clientId);
-        this.players[playerId].isOnline = true;
+        this.players[clientId].isOnline = true;
     }
     removePlayer(clientId, room, clientObject) {
         if (clientObject) {
             clientObject.close();
         }
-        const playerId = this.findPlayerId(clientId);
-        if (this.gameStarted) {
-            this.players[playerId].isOnline = false;
+        if (room.locked) {
+            this.players[clientId].isOnline = false;
             return;
         }
-        delete this.players[playerId];
-        if (playerId == this.currentPlayer && this.playerIDS.length) {
+        delete this.players[clientId];
+        if (clientId == this.currentPlayer && this.clientIDS.length) {
             this.currentPlayer = this.findNextPlayer(this.currentPlayer);
         }
         if (
-            playerId == this.adminPlayer &&
-            this.playerIDS.length
+            clientId == this.adminPlayer &&
+            this.clientIDS.length
         ) {
             this.adminPlayer = this.findNewAdmin();
         }
-        if (this.playerIDS.length == 1) {
+        if (this.clientIDS.length == 1) {
             this.gameStarted = false;
             var emptyArray = new ArraySchema();
             this.players[this.currentPlayer].strikedCells = emptyArray;
