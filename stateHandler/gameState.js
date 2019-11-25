@@ -85,6 +85,8 @@ class State extends Schema {
         }
         if (playerName.trim() == '') {
             playerName = 'Mr No Name'
+        }else{
+            playerName = playerName.trim().substring(0,20);
         }
         this.players[clientId] = new Player();
         this.players[clientId].playerUuid = playerUuid;

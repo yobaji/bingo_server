@@ -10,7 +10,12 @@ const port = process.env.PORT || 6061;
 const app = express();
 app.use(express.json());
 
-app.use(express.static('public'));
+app.use('/', express.static('public'));
+app.use('/room/:roomId', express.static('public'));
+app.use('/room/:roomId/:clientId', express.static('public'));
+app.get('*', function(req, res) {
+  res.redirect('/');
+});
 
 const gameServer = new colyseus.Server({
   server: http.createServer(app),
