@@ -19,7 +19,8 @@ app.get('*', function(req, res) {
 
 const gameServer = new colyseus.Server({
   server: http.createServer(app),
-  express: app
+  express: app,
+  pingMaxRetries:10
 });
 
 // register your room handlers
