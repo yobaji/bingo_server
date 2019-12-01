@@ -175,7 +175,7 @@ class State extends Schema {
     }
     playerOffline(clientId, room) {
         if (clientId == this.currentPlayer) {
-            room.clock.start();
+            
         }
         if (!this.players[clientId]) return;
         this.players[clientId].isOnline = false;
