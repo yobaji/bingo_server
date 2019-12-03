@@ -5,7 +5,7 @@ const express = require("express");
 const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
 
-const port = process.env.PORT || 8080;
+const port = process.env.NODE_ENV == 'development'? 6061:8080;
 
 const app = express();
 app.use(express.json());

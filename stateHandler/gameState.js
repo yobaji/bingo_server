@@ -145,15 +145,15 @@ class State extends Schema {
         }
     }
     restartGame(room) {
-        this.currentPlayer = this.chooseRandomCurrentPlayer();
         for (let clientId in this.players) {
             if (!this.players[clientId].isOnline) {
-                this.removePlayer(clientId, room);
+                this.removePlayer(clientId, room,false,true);
             }
             else {
                 this.players[clientId].resetPlayer();
             }
         }
+        this.currentPlayer = this.chooseRandomCurrentPlayer();
     }
     chooseRandomCurrentPlayer() {
         return this.clientIDS[Math.floor(Math.random() * this.clientIDS.length)]
@@ -196,11 +196,11 @@ class State extends Schema {
         if (!this.players[clientId]) return;
         this.players[clientId].isOnline = true;
     }
-    removePlayer(clientId, room, clientObject) {
+    removePlayer(clientId, room, clientObject,forceRemove=false) {
         if (clientObject) {
             clientObject.close();
         }
-        if (room.locked) {
+        if (room.locked && !forceRemove) {
             this.players[clientId].isOnline = false;
             return;
         }
