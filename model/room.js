@@ -49,7 +49,7 @@ module.exports.addNewroom = function(body){
 }
 
 module.exports.addPlayer = function(player, roomId){
-  Room.findOne({roomId: roomId}, function(err, result){
+  Room.findOne({roomId: roomId}, {}, { sort: { 'createdAt' : -1 } }, function(err, result){
     if ( err ) throw err;
 
     if(!result){
@@ -69,7 +69,7 @@ module.exports.addPlayer = function(player, roomId){
 }
 
 module.exports.incrementNoOfGames = function(roomId){
-  Room.findOne({roomId: roomId}, function(err, result){
+  Room.findOne({roomId: roomId}, {}, { sort: { 'createdAt' : -1 } }, function(err, result){
     if ( err ) throw err;
 
     if(!result){
@@ -86,7 +86,7 @@ module.exports.incrementNoOfGames = function(roomId){
 }
 
 module.exports.addDisposeTime = function(roomId){
-  Room.findOne({roomId: roomId}, function(err, result){
+  Room.findOne({roomId: roomId}, {}, { sort: { 'createdAt' : -1 } }, function(err, result){
     if ( err ) throw err;
     if(!result){
       return;
