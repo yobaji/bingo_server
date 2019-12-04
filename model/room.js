@@ -13,7 +13,8 @@ var roomSchema = mongoose.Schema({
   players: Array,
   noOfGames: {type:Number, default: 0},
   createdAt: {type: Date, default: Date.now},
-  updatedAt: {type: Date, default: Date.now}
+  updatedAt: {type: Date, default: Date.now},
+  disposedAt: {type: Date, default: null}
 });
 
 var Room = mongoose.model('room', roomSchema);
@@ -73,6 +74,20 @@ module.exports.incrementNoOfGames = function(roomId){
     result.noOfGames++;
     result.updatedAt = Date.now();
     
+    result.save(function(err, result){
+      if ( err ) throw err;
+    });
+
+  });
+}
+
+module.exports.addDisposeTime = function(roomId){
+  Room.findOne({roomId: roomId}, function(err, result){
+    if ( err ) throw err;
+    if(!result){
+      return;
+    }
+    result.disposedAt = Date.now();    
     result.save(function(err, result){
       if ( err ) throw err;
     });

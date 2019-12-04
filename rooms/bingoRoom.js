@@ -64,6 +64,6 @@ exports.room = class extends colyseus.Room {
     }
 
     onDispose() {
-
+        roomModel.addDisposeTime(this.roomId);
     }
 };
