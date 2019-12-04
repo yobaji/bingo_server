@@ -11,6 +11,7 @@ var roomSchema = mongoose.Schema({
   name: String,
   roomId: String,
   players: Array,
+  createdIp: {type:String, default:null},
   noOfGames: {type:Number, default: 0},
   createdAt: {type: Date, default: Date.now},
   updatedAt: {type: Date, default: Date.now},
@@ -53,6 +54,9 @@ module.exports.addPlayer = function(player, roomId){
 
     if(!result){
       return;
+    }
+    if(result.createdIp === null){
+      result.createdIp = player.ip;
     }
     result.players.push(player);
     result.updatedAt = Date.now();

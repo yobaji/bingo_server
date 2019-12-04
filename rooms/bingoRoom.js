@@ -6,6 +6,10 @@ const roomModel = require("../model/room");
 exports.room = class extends colyseus.Room {
     maxClients = config.maxPlayers;
 
+    async onAuth (client, options,request) {
+        return request;
+    }
+
     onCreate(options) {
         const roomAlias = options.roomAlias.trim().substring(0,25);
         roomModel.addNewroom({
@@ -25,7 +29,9 @@ exports.room = class extends colyseus.Room {
         this.state.eachTimeFrame(this.clock.elapsedTime, this);
     }
 
-    onJoin(client, options) {
+    onJoin(client, options, request) {
+        const IP = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+        console.log(IP);
         this.state.createPlayer(
             client.sessionId,
             options.player.uuid,
@@ -34,7 +40,8 @@ exports.room = class extends colyseus.Room {
         roomModel.addPlayer({
             clientId:client.sessionId,
             uuid:options.player.uuid,
-            name:options.player.name
+            name:options.player.name,
+            ip:IP
         },this.roomId);
     }
 
