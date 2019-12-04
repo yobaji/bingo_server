@@ -1,9 +1,11 @@
 // Colyseus + Express
 const colyseus = require("colyseus");
+const MongooseDriver = require("colyseus/lib/matchmaker/drivers/MongooseDriver").MongooseDriver;
 const http = require("http");
 const express = require("express");
 const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
+const { config } = require("./config");
 
 const port = process.env.NODE_ENV == 'development'? 6061:8080;
 
@@ -19,7 +21,8 @@ app.get('*', function(req, res) {
 
 const gameServer = new colyseus.Server({
   server: http.createServer(app),
-  express: app
+  express: app,
+  driver: new MongooseDriver(config.mongoDbUri)
 });
 
 // register your room handlers

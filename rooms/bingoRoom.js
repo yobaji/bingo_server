@@ -1,15 +1,21 @@
 const colyseus = require("colyseus");
 const { config } = require("../config");
 const State = require("../stateHandler/gameState");
+const roomModel = require("../model/room");
 
 exports.room = class extends colyseus.Room {
     maxClients = config.maxPlayers;
 
     onCreate(options) {
+        const roomAlias = options.roomAlias.trim().substring(0,25);
+        roomModel.addNewroom({
+            roomId:this.roomId,
+            name:roomAlias,
+            players:[]
+        });
         this.setState(new State());
         const roomMetadata = {
-            alias: options.roomAlias.trim().substring(0,25),
-            adminPlayer: options.player.id
+            alias: roomAlias
         };
         this.setMetadata(roomMetadata);
         this.setSimulationInterval((deltaTime) => this.update(deltaTime));
@@ -25,6 +31,11 @@ exports.room = class extends colyseus.Room {
             options.player.uuid,
             options.player.name
         );
+        roomModel.addPlayer({
+            clientId:client.sessionId,
+            uuid:options.player.uuid,
+            name:options.player.name
+        },this.roomId);
     }
 
     onMessage(client, message) {

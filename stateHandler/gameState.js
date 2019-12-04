@@ -1,5 +1,6 @@
 const schema = require("@colyseus/schema");
 var GameLogic = require("../gameLogic");
+const roomModel = require("../model/room");
 const { helper } = require("../helpers");
 const { config } = require("../config");
 const Schema = schema.Schema;
@@ -116,6 +117,7 @@ class State extends Schema {
                 }
                 break;
             case "START_GAME":
+                    roomModel.incrementNoOfGames(room.roomId);
                 if (clientId == this.adminPlayer && this.onlinePlayersCount > 1) {
                     room.clock.start();
                     this.restartGame(room);
