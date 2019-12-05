@@ -198,6 +198,9 @@ class State extends Schema {
         if (!this.players[clientId]) return;
         this.players[clientId].isOnline = true;
     }
+    setRoomName(roomName){
+        this.roomName = roomName;
+    }
     removePlayer(clientId, room, clientObject,forceRemove=false) {
         if (clientObject) {
             clientObject.close();
@@ -228,6 +231,7 @@ class State extends Schema {
 }
 schema.defineTypes(State, {
     players: { map: Player },
+    roomName: "string",
     adminPlayer: "string",
     currentPlayer: "string",
     gameStarted: "boolean",

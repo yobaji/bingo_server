@@ -22,6 +22,7 @@ exports.room = class extends colyseus.Room {
             alias: roomAlias
         };
         this.setMetadata(roomMetadata);
+        this.state.setRoomName(roomAlias);
         this.setSimulationInterval((deltaTime) => this.update(deltaTime));
     }
 
@@ -31,7 +32,6 @@ exports.room = class extends colyseus.Room {
 
     onJoin(client, options, request) {
         const IP = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
-        console.log(IP);
         this.state.createPlayer(
             client.sessionId,
             options.player.uuid,
