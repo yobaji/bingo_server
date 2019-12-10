@@ -11,13 +11,14 @@ class Player extends Schema {
         this.winCount = 0;
         this.isOnline = true;
     }
-    resetPlayer() {
-        this.shuffleCells();
+    resetPlayer(shuffle = true) {
+        this.shuffleCells(shuffle);
         this.isWon = false;
     }
-    shuffleCells() {
-        this.cellArray = new ArraySchema();
+    shuffleCells(shuffle) {
         this.strikedCells = new ArraySchema();
+        if(!shuffle)return;
+        this.cellArray = new ArraySchema();
         helper.array.createCells().forEach(C => {
             this.cellArray[C.position - 1] = new Cell();
             this.cellArray[C.position - 1].position = C.position;

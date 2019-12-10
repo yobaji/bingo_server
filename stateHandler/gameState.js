@@ -106,6 +106,15 @@ class State extends Schema {
         this.currentPlayer = this.findNextPlayer(this.currentPlayer);
         this.runGameLogic(room);
     }
+    getClientObjectFromId(clientId,room){
+        for(let index in room.clients){
+            let client = room.clients[index];
+            if(client.id == clientId){
+                return client;
+            }
+        }
+        return false;
+    }
     handleMessage(clientObject, message, room) {
         const clientId = clientObject.sessionId;
         if (!this.players[clientId]) return;
@@ -133,11 +142,17 @@ class State extends Schema {
             case "RE_OPEN_ROOM":
                 if (!this.gameStarted) {
                     room.unlock();
-                    this.restartGame(room);
+                    this.restartGame(room,false);
                 }
                 break;
             case "REMOVE_PLAYER":
-                this.removePlayer(clientId, room, clientObject);
+                this.removePlayer(message.playerId, room, clientObject);
+                break;
+            case "KICKOUT_PLAYER":
+                let client = this.getClientObjectFromId(message.playerId,room);
+                if(client){
+                    room.send(client, {type:"KICKOUT"});
+                }
                 break;
             case "POP_EMOJI":
                 room.broadcast({ type: "POP_EMOJI", emojiName: message.emojiName, playerId: clientId }, { except: clientObject });
@@ -146,13 +161,13 @@ class State extends Schema {
                 break;
         }
     }
-    restartGame(room) {
+    restartGame(room,shuffle=true) {
         for (let clientId in this.players) {
             if (!this.players[clientId].isOnline) {
                 this.removePlayer(clientId, room,false,true);
             }
             else {
-                this.players[clientId].resetPlayer();
+                this.players[clientId].resetPlayer(shuffle);
             }
         }
         this.currentPlayer = this.chooseRandomCurrentPlayer();
@@ -206,7 +221,9 @@ class State extends Schema {
             clientObject.close();
         }
         if (room.locked && !forceRemove) {
-            this.players[clientId].isOnline = false;
+            if(this.players[clientId]){
+                this.players[clientId].isOnline = false;
+            }
             return;
         }
         delete this.players[clientId];
