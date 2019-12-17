@@ -52,7 +52,8 @@ exports.room = class extends colyseus.Room {
     async onLeave(client, consented) {
         if(!this.state.players[client.sessionId])return;
         this.state.playerOffline(client.sessionId, this);
-        let rejoinTimeout = this.locked ? 20 : 0;
+        // let rejoinTimeout = this.locked ? 20 : 0;
+        let rejoinTimeout = 35;
         try {
             if (consented) {
                 throw new Error("consented leave");
