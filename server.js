@@ -23,6 +23,7 @@ if(process.env.NODE_ENV == 'development'){
 roomController.clearRoomAliases();
 
 app.use('/', express.static('public'));
+app.use('/assets', express.static('assets'));
 app.use('/getRoomAlias',  function(req, res) {
   roomController.getRoomAlias(req,res);
 });
