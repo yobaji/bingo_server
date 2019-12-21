@@ -2,9 +2,11 @@
 const colyseus = require("colyseus");
 const MongooseDriver = require("colyseus/lib/matchmaker/drivers/MongooseDriver").MongooseDriver;
 const http = require("http");
+const cors = require("cors");
 const express = require("express");
 const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
+const roomController = require("./controller/roomController");
 const { config } = require("./config");
 
 const port = process.env.NODE_ENV == 'development'? 6061:8080;
@@ -12,7 +14,19 @@ const port = process.env.NODE_ENV == 'development'? 6061:8080;
 const app = express();
 app.use(express.json());
 
+if(process.env.NODE_ENV == 'development'){
+  app.use(cors());
+}
+
+roomController.clearRoomAliases();
+
 app.use('/', express.static('public'));
+app.use('/getRoomAlias',  function(req, res) {
+  roomController.getRoomAlias(req,res);
+});
+app.use('/getRoomIdFromAlias',  function(req, res) {
+  roomController.getRoomIdFromAlias(req,res);
+});
 app.use('/room/:roomId', express.static('public'));
 app.use('/room/:roomId/:clientId', express.static('public'));
 app.get('*', function(req, res) {

@@ -2,6 +2,7 @@ const colyseus = require("colyseus");
 const { config } = require("../config");
 const State = require("../stateHandler/gameState");
 const roomModel = require("../model/room");
+const roomAliasModel = require("../model/roomAliases");
 
 exports.room = class extends colyseus.Room {
     maxClients = config.maxPlayers;
@@ -16,7 +17,8 @@ exports.room = class extends colyseus.Room {
             roomId:this.roomId,
             name:roomAlias,
             players:[]
-        });
+        });        
+        roomAliasModel.createRoomAlias(this.roomId);
         this.setState(new State());
         const roomMetadata = {
             alias: roomAlias
@@ -72,6 +74,7 @@ exports.room = class extends colyseus.Room {
     }
 
     onDispose() {
+        roomAliasModel.markNotUsed(this.roomId);
         roomModel.addDisposeTime(this.roomId);
     }
 };

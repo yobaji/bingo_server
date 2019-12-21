@@ -20,8 +20,6 @@ var roomSchema = mongoose.Schema({
 
 var Room = mongoose.model('room', roomSchema);
 
-mongoose.connection;
-
 module.exports.addNewroom = function(body){
   var room = new Room({
     name:body.name,
