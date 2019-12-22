@@ -17,18 +17,10 @@ var roomIdsSchema = mongoose.Schema({
 var RoomAliases = mongoose.model('roomAliases', roomIdsSchema);
 
 module.exports.createRoomAlias = function(roomId){
-  RoomAliases.findOne({used: false}, {}, { sort: { 'roomIdAlias' : 1 } }, function(err, result){
-    if ( err ) throw err;
-    if(!result){
+  RoomAliases.updateOne({used: false},{roomId:roomId,lastUsed:new Date(),used:true},function(err,result){
+    if ( err || !result){
       return;
     }
-    result.roomId = roomId;
-    result.used = true;
-    result.lastUsed = new Date();
-    result.save(function(err, result){
-      if ( err ) throw err;
-    });
-
   });
 }
 
