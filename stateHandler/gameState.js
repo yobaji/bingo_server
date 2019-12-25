@@ -15,7 +15,6 @@ class State extends Schema {
         this.players = new MapSchema();
         this.playerTimeout = config.playerTimeout;
         this.offlinePlayerTimeout = config.offlinePlayerTimeout;
-        this.elapsedTime = 0;
 
         // initialize a dummy delayed Instance
         this.delayed = { clear: () => { } }
@@ -44,11 +43,7 @@ class State extends Schema {
     }
     eachTimeFrame(elapsedTime, room) {
         const elapsedTimeInSec = parseInt(elapsedTime / 1000);
-
-        // no need to update state
-        if (elapsedTimeInSec == this.elapsedTime) return;
         if (!this.gameStarted) return;
-        this.elapsedTime = elapsedTimeInSec;
         var isPlayerOnline = this.players[this.currentPlayer].isOnline;
         if (isPlayerOnline && elapsedTimeInSec >= this.playerTimeout) {
             room.clock.start();
