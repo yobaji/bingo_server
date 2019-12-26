@@ -41,6 +41,12 @@ class State extends Schema {
         }
         return allStrikedCells;
     }
+    findClientIdFromUuid(uuid){
+        if(this.playerUUIDS.indexOf(uuid)>=0){
+            return(this.clientIDS[this.playerUUIDS.indexOf(uuid)]);
+        }
+        return false;
+    }
     eachTimeFrame(elapsedTime, room) {
         const elapsedTimeInSec = parseInt(elapsedTime / 1000);
         if (!this.gameStarted) return;
@@ -74,10 +80,16 @@ class State extends Schema {
         }
         return nextClientId;
     }
-    createPlayer(clientId, playerUuid, playerName) {
+    createPlayer(clientId, playerUuid, playerName, room) {
         // if player already exists continue the play
         if (this.clientIDS.indexOf(clientId) >= 0) {
             return;
+        }
+        // if uuid already exist kick that player out
+        var uuidFoundClientId = this.findClientIdFromUuid(playerUuid);
+        if(uuidFoundClientId){
+            let clientToRemove = this.getClientObjectFromId(uuidFoundClientId,room);
+            clientToRemove.close();
         }
         if (playerName.trim() == '') {
             playerName = 'Mr No Name'
@@ -146,7 +158,11 @@ class State extends Schema {
             case "KICKOUT_PLAYER":
                 let client = this.getClientObjectFromId(message.playerId,room);
                 if(client){
-                    room.send(client, {type:"KICKOUT"});
+                    if(room.locked){
+                        client.close();
+                    }else{
+                        this.removePlayer(client.id,room,client);
+                    }
                 }
                 break;
             case "POP_EMOJI":

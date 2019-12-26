@@ -37,7 +37,8 @@ exports.room = class extends colyseus.Room {
         this.state.createPlayer(
             client.sessionId,
             options.player.uuid,
-            options.player.name
+            options.player.name,
+            this
         );
         roomModel.addPlayer({
             clientId:client.sessionId,
