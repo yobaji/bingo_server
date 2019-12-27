@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 
 // Don't redirect if the hostname is `localhost:port`
-app.use(redirectToHTTPS([/localhost:(\d{4})/]));
+// app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 
 if(process.env.NODE_ENV == 'development'){
   app.use(cors());
