@@ -8,15 +8,11 @@ const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
 const roomController = require("./controller/roomController");
 const { config } = require("./config");
-const redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 
 const port = process.env.NODE_ENV == 'development'? 6061:8080;
 
 const app = express();
 app.use(express.json());
-
-// Don't redirect if the hostname is `localhost:port`
-// app.use(redirectToHTTPS([/localhost:(\d{4})/]));
 
 if(process.env.NODE_ENV == 'development'){
   app.use(cors());

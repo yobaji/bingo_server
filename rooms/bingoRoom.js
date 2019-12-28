@@ -55,13 +55,13 @@ exports.room = class extends colyseus.Room {
     async onLeave(client, consented) {
         if(!this.state.players[client.sessionId])return;
         this.state.playerOffline(client.sessionId, this);
-        let rejoinTimeout = this.locked ? 20 : 0;
+        let rejoinTimeout = this.locked ? 1500 : 0;
         try {
             if (consented) {
                 throw new Error("consented leave");
             }
 
-            // allow disconnected client to reconnect into this room until 20 seconds
+            // allow disconnected client to reconnect into this room until 1500 seconds
             await this.allowReconnection(client, rejoinTimeout);
 
             // client returned! let's re-activate it.
