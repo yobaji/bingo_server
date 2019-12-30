@@ -26,8 +26,8 @@ roomController.clearRoomAliases();
 
 app.use('/', express.static('public'));
 app.use('/assets', express.static('assets'));
-app.get('/google9af57b5fb5d340bc.html', function(req, res) {
-  res.sendFile(path.join(__dirname + '/assets/google9af57b5fb5d340bc.html'));
+app.get('/googleeedf3d735bfba695.html', function(req, res) {
+  res.sendFile(path.join(__dirname + '/assets/googleeedf3d735bfba695.html'));
 });
 app.use('/getRoomAlias',  function(req, res) {
   roomController.getRoomAlias(req,res);
