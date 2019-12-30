@@ -3,6 +3,7 @@ const colyseus = require("colyseus");
 const MongooseDriver = require("colyseus/lib/matchmaker/drivers/MongooseDriver").MongooseDriver;
 const http = require("http");
 const cors = require("cors");
+const path=require('path');
 const express = require("express");
 const bingoRoom = require("./rooms/bingoRoom").room;
 const mainRoom = require("./rooms/mainRoom").room;
@@ -25,6 +26,9 @@ roomController.clearRoomAliases();
 
 app.use('/', express.static('public'));
 app.use('/assets', express.static('assets'));
+app.get('/google9af57b5fb5d340bc.html', function(req, res) {
+  res.sendFile(path.join(__dirname + '/assets/google9af57b5fb5d340bc.html'));
+});
 app.use('/getRoomAlias',  function(req, res) {
   roomController.getRoomAlias(req,res);
 });
