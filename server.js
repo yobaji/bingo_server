@@ -17,8 +17,8 @@ app.use(express.json());
 if(process.env.NODE_ENV == 'development'){
   app.use(cors());
 }else{
-  // app.use(cors({origin: 'https://www.vubingo.com'}));
   app.use(cors());
+  app.use( require('express-force-domain')('https://www.vubingo.com') );
 }
 
 roomController.clearRoomAliases();
