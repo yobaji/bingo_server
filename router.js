@@ -2,6 +2,7 @@
 const path=require('path');
 const express = require("express");
 const roomController = require("./controller/roomController");
+const settingsController = require("./controller/settingController");
 
 exports.createRoutes = function(app){
 
@@ -16,6 +17,10 @@ exports.createRoutes = function(app){
     
     app.use('/getRoomAlias',  function(req, res) {
       roomController.getRoomAlias(req,res);
+    });
+    
+    app.use('/getUpdateTriggerValue',  function(req, res) {
+      settingsController.getUpdateTriggerValue(res);
     });
 
     app.use('/getRoomIdFromAlias',  function(req, res) {
