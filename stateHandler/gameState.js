@@ -91,7 +91,7 @@ class State extends Schema {
             let clientToRemove = this.getClientObjectFromId(uuidFoundClientId,room);
             clientToRemove.close();
         }
-        if (playerName.trim() == '') {
+        if (!playerName || playerName.trim() == '') {
             playerName = 'Mr No Name'
         }else{
             playerName = playerName.trim().substring(0,20);
