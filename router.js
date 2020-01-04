@@ -14,6 +14,11 @@ exports.createRoutes = function(app){
     app.get('/googleeedf3d735bfba695.html', function(req, res) {
       res.sendFile(path.join(__dirname + '/assets/googleeedf3d735bfba695.html'));
     });
+
+    // google assets link json file
+    app.get('/.well-known/assetlinks.json', function(req, res) {
+      res.sendFile(path.join(__dirname + '/assets/assetlinks.json'));
+    });
     
     app.use('/getRoomAlias',  function(req, res) {
       roomController.getRoomAlias(req,res);

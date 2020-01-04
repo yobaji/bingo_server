@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.vubingo.www",
+    "sha256_cert_fingerprints":
+    ["F6:BF:E9:A9:75:79:0F:C5:DB:13:76:EC:0C:0B:E5:75:6C:C4:84:45:ED:59:D8:77:AC:D2:BD:09:33:1C:E6:5B"]
+  }
+}]
