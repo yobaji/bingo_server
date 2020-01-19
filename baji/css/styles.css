@@ -1,0 +1,214 @@
+body{
+	font-family: 'print_clearly';
+	overflow-x: hidden;
+}
+a {
+    color: #555 !important;
+    text-decoration: underline !important;
+    font-style: italic;
+}
+#particles-js{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(255,255,255,0.3);
+} 
+.main-contents {
+    z-index: 2;
+    position: relative;
+    white-space: nowrap;
+}
+.rotated_container {
+    transform: rotate(-34deg);
+    position: fixed;
+    left: 330px;
+    top: -1160px;
+    height: 4000px;
+    width: 3000px;
+}
+.column1 {
+    width: 700px;
+}
+.column2, .column3 {
+    width: 400px;
+}
+.column2 .menu_item,.column3 .menu_item {
+	height: 365px;
+    border: solid 1px #c0c0c0;
+}
+.column1 .menu_item {
+	height: 600px;
+    border: solid 1px #a1a0a0;
+}
+.menu_item.name_wrapper {
+    padding-left: 232px;
+    padding-top: 70px;
+}
+.menu_item {
+	position: relative;
+    transition: all 0.5s;
+}
+.animated.fadeIn{
+    animation-duration: 3s;
+}
+.menu_item:before {
+    content: "";
+    position: absolute;
+    border: solid 1px transparent;
+    background-color: rgba(255,255,255,0.3);
+    top: 0;
+    left: 0;
+    bottom: 0;
+	right: 0;
+	transition: all 0.8s;
+}
+.menu_item.clickable {
+	cursor: pointer;
+}
+.menu_item.clickable:hover:before {
+    border: solid 13px rgba(156, 156, 156, 0.3);
+	background-color: rgba(255,255,255,0.6);
+	top: -13px;
+	left: -13px;
+	right: -13px;
+	bottom: -13px;
+}
+.menu_item.clickable:hover{
+    border: solid 13px rgba(156, 156, 156, 0);
+    background-color: rgba(0,0,0,0.05);
+}
+.menu_item.longer {
+    height: 700px;
+}
+.column3{
+	padding-top: 150px;
+}
+.menu_item.less_height {
+    height: 347px;
+}
+.menu_title {
+    transform: rotate(34deg);
+    font-size: 35px;
+	margin-top: 184px;
+	padding-left: 50px;
+}
+.job_title{
+	font-size: 30px;
+	line-height: 5px;
+}
+.modalParent {
+    background-color: rgba(255,255,255,0.9) !important;
+    box-shadow: 0 0 150px #a09e9e inset;
+    animation-duration: 0.8s!important;
+    width: 700px!important;
+    overflow-x: hidden;
+}
+div#skillsModal.modalParent {
+    width: 100% !important;
+}
+h1.modal_heading {
+    font-size: 45px;
+}
+.modalClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    z-index: 2;
+}
+.modalClose:after,.modalClose:before {
+    content: "";
+    position: absolute;
+    border-top: solid 2px rgba(0, 0, 0, 0.3);
+    left: 0;
+    width: 100%;
+    transform: rotate(45deg);
+    top: 35px;
+    transition: all 0.5s;
+    transition-delay: 0.6s;
+}
+.modalClose:before {
+    transform: rotate(-45deg);
+    top: 35px;
+}
+.modalParent:not(.rotateInUpLeft) .modalClose:after,.modalParent:not(.rotateInUpLeft) .modalClose:before{
+    transform: rotate(0deg);
+}
+ul.skills_list {
+    font-size: 36px;
+}
+.skill_level_bar {
+    width: 100%;
+    height: 11px;
+    background-color: rgba(0,0,0,0.3);
+}
+.skill_level_bar>.skill_level {
+    height: 100%;    
+    background-color: rgba(0,0,0,0.7);
+    transition: width 1s ease-in-out;
+    transition-delay: 0.4s;
+}
+.skillWrap ul {
+    font-size: 20px;
+}
+.modalContent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.modalParent:not(.rotateInUpLeft) .skill_level_bar>.skill_level {
+    width: 0 !important;
+}
+ul.skills_list {
+    font-size: 36px;
+    list-style: none;
+}
+p.address {
+    display: inline-block;
+    vertical-align: top;
+}
+ul.skills_list.contact {
+    font-size: 30px;
+}
+ul.skills_list.contact li>i {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+}
+ul.skills_list li i {
+    vertical-align: middle;
+    font-size: 30px;
+    padding-bottom: 6px;
+}
+/* responsive */
+@media (max-width: 996px) {    
+    .modalParent{
+        width: 100%!important;
+    }
+}
+@media (max-width: 720px) {      
+    .skill_level_bar {
+        width: 100%;
+    }
+    ul.skills_list.contact {
+        font-size: 15px;
+    }
+}
+@media (max-width: 500px) {
+    
+}
+@media (max-width: 425px) {
+    
+}
+@media (max-width: 350px) {
+    
+}
+  

@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'print_clearly';
+    src: url('printbold-j5o-webfont.woff2') format('woff2'),
+         url('printbold-j5o-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}

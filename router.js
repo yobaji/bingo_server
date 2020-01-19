@@ -10,9 +10,7 @@ exports.createRoutes = function(app){
     
     app.use('/assets', express.static('assets'));
 
-    app.use('/baji', function(req, res) {
-      res.redirect('https://www.facebook.com/Baji321');
-    });
+    app.use('/baji_beta', express.static('baji'));
 
     // google web master server ownership proof
     app.get('/googleeedf3d735bfba695.html', function(req, res) {
