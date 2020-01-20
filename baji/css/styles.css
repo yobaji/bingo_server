@@ -187,6 +187,7 @@ ul.skills_list li i {
     font-size: 35px;
     vertical-align: bottom;
     margin-bottom: 10px;
+    width: 45px;
 }
 /* responsive */
 @media (max-width: 996px) {    
