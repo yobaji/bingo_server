@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2020 by original authors @ fontello.com</metadata>
+<defs>
+<font id="custom-icons" horiz-adv-x="1000" >
+<font-face font-family="custom-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="c-sharp" unicode="&#xe800;" d="M500 810c-14 0-28-4-41-11l-337-189c-26-14-42-41-42-71v-378c0-30 16-56 42-71l337-189a84 84 0 0 1 82 0l337 189a81 81 0 0 1 42 71v378c0 30-16 57-42 71l-337 189a84 84 0 0 1-41 11z m0-40c8 0 15-2 22-6l337-189a41 41 0 0 0 21-36v-378c0-15-8-28-21-36l-337-189a45 45 0 0 0-44 0l-337 189c-13 8-21 21-21 36v378c0 15 8 29 21 36l337 189a45 45 0 0 0 22 6z m0-160c-143 0-260-117-260-260s117-260 260-260c82 0 158 38 207 103l14 18-122 70-11-12a120 120 0 0 0-208 81 120 120 0 0 0 208 81l11-12 122 70-14 18a259 259 0 0 1-207 103z m0-40c62 0 118-26 159-70l-55-32c-29 25-65 42-104 42-88 0-160-72-160-160s72-160 160-160c39 0 75 17 104 42l55-32c-41-44-97-70-159-70-121 0-220 99-220 220s99 220 220 220z m200-120v-40h-40v-40h40v-40h-40v-40h40v-40h40v40h40v-40h40v40h40v40h-40v40h40v40h-40v40h-40v-40h-40v40z m40-80h40v-40h-40z" horiz-adv-x="1000" />
+
+<glyph glyph-name="coldfusion" unicode="&#xe801;" d="M0 850v-1000h1000v1000h-1000z m941-941h-882v882h882v-882z m-443 359c-4-10-25-51-82-51-57 0-98 51-98 112 0 73 50 111 97 111 57 0 77-40 81-50l50 35c-11 21-48 72-129 72-89 0-165-67-165-166 0-89 71-171 162-171 95 0 131 65 137 77l-53 31z m201 188c13 0 29-6 34-8l13 47c-21 10-41 14-61 14-50 0-82-37-82-99v-15h-32v-48h32v-184h63v184h60v48h-60v17c0 30 11 44 33 44z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>
