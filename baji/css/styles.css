@@ -2,7 +2,12 @@ body{
     font-family: 'Montserrat', sans-serif;
 	overflow-x: hidden;
 }
-a {
+a{
+    color: #555 !important;
+    text-decoration: underline !important;
+    font-style: italic;
+}
+.btn-link {
     color: #555 !important;
     text-decoration: underline !important;
     font-style: italic;
@@ -191,6 +196,15 @@ ul.skills_list li i {
     vertical-align: bottom;
     margin: 5px 0;
     width: 45px;
+}
+#worksModal .card {
+    background-color: transparent;
+    border: none;
+}
+#worksModal .btn-link {
+    text-align: left;
+    padding-left: 0;
+    font-size: 25px;
 }
 /* responsive */
 @media (max-width: 996px) {    

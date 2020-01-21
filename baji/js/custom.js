@@ -12,6 +12,10 @@ $(document).ready(function(){
             $('.modalParent.rotateInUpLeft .modalClose').click();
         }    
     });
+    $("#works").animatedModal({
+        animatedIn:'rotateInUpLeft',
+        animatedOut:'rotateOutDownRight'
+    });
     $("#skills").animatedModal({
         animatedIn:'rotateInUpLeft',
         animatedOut:'rotateOutDownRight'
