@@ -26,6 +26,7 @@ a{
     white-space: nowrap;
 }
 .rotated_container {
+    transition: all 0.5s;
     transform: rotate(-34deg);
     position: fixed;
     left: 330px;
@@ -94,6 +95,7 @@ a{
     height: 347px;
 }
 .menu_title {
+    transition: all 0.2s;
     transform: rotate(34deg);
     font-size: 30px;
 	margin-top: 184px;
@@ -206,10 +208,90 @@ ul.skills_list li i {
     padding-left: 0;
     font-size: 25px;
 }
-/* responsive */
-@media (max-width: 996px) {    
+.menu_item.clickable .menu_title:after {
+    content: "";
+    position: absolute;
+    border-bottom: solid 1px #000;
+    left: 52px;
+    bottom: 0;
+    width: 0;
+    transition: width 0.5s;
+}
+.menu_item.clickable .menu_title {
+    display: inline-block;
+    margin-top: 120px;
+}
+.menu_item.clickable:hover .menu_title:after {    
+    width: 100%;
+}
+/* responsive */   
+@media (max-width: 1200px) {    
+    .column1 {
+        width: 500px;
+    }    
+    .column2 .menu_item, .column3 .menu_item {
+        height: 300px;
+    }
+    .menu_item.name_wrapper {
+        padding-left: 120px;
+        padding-top: 90px;
+        height: 500px;
+    }
+    .rotated_container {
+        left: 400px;
+    }
+    h1.my_name {
+        font-size: 25px;
+    }
+}
+@media (max-width: 996px) {  
     .modalParent{
         width: 100%!important;
+    }
+    .column3.left {
+        padding: 0;
+    }
+    .menu_item.clickable .menu_title{
+        margin-top: 25px;
+    }
+    .menu_title {
+        transform: rotate(0);
+        padding: 0 !important;
+        margin: 20px;
+    }
+    .main-contents {
+        margin: 0;
+        padding: 0;
+    }
+    .rotated_container {
+        display: block !important;
+        transform: rotate(0);
+        position: relative;
+        left: auto;
+        top: auto;
+    }
+    .column1,.column2,.column3{
+        width: 100%;
+    }
+    .menu_item {
+        height: auto !important;
+        padding: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+    .menu_item:not(.clickable) {
+        display: none;
+    }
+    .menu_item.name_wrapper {
+        display: block;
+        padding: 100px 44px !important;
+        border: none;
+    }
+    .column3 .menu_item.clickable {
+        border: none;
+    }
+    .column2.left>.menu_item:nth-child(2) {
+        border: none !important;
     }
 }
 @media (max-width: 720px) {      
