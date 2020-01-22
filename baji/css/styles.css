@@ -251,6 +251,9 @@ ul.skills_list li i {
     .column3.left {
         padding: 0;
     }
+    .menu_item.clickable .menu_title:after{
+        display:none;
+    }
     .menu_item.clickable .menu_title{
         margin-top: 25px;
     }
@@ -269,6 +272,7 @@ ul.skills_list li i {
         position: relative;
         left: auto;
         top: auto;
+        height: auto;
     }
     .column1,.column2,.column3{
         width: 100%;
@@ -284,8 +288,9 @@ ul.skills_list li i {
     }
     .menu_item.name_wrapper {
         display: block;
-        padding: 100px 44px !important;
+        padding: 37px 8px !important;
         border: none;
+        padding-top: 85px !important;
     }
     .column3 .menu_item.clickable {
         border: none;
