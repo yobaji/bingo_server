@@ -256,6 +256,7 @@ ul.skills_list li i {
     }
     .menu_item.clickable .menu_title{
         margin-top: 25px;
+        font-size: 20px;
     }
     .menu_title {
         transform: rotate(0);
@@ -273,6 +274,7 @@ ul.skills_list li i {
         left: auto;
         top: auto;
         height: auto;
+        width: 100%!important;
     }
     .column1,.column2,.column3{
         width: 100%;
@@ -297,6 +299,18 @@ ul.skills_list li i {
     }
     .column2.left>.menu_item:nth-child(2) {
         border: none !important;
+    }
+    h1.my_name {
+        font-size: 20px;
+    }
+    .job_title {
+        font-size: 17px;
+    }
+    .menu_item.clickable:hover:before {
+        border-left: none !important;
+        border-right: none !important;
+        right: 0;
+        left: 0;
     }
 }
 @media (max-width: 720px) {      
