@@ -266,6 +266,12 @@ ul.skills_list li i {
     .main-contents {
         margin: 0;
         padding: 0;
+        white-space: normal;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
     }
     .rotated_container {
         display: block !important;
