@@ -272,6 +272,7 @@ ul.skills_list li i {
         top: 0;
         left: 0;
         right: 0;
+        overflow-y: auto;
     }
     .rotated_container {
         display: block !important;
