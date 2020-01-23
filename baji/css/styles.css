@@ -312,6 +312,14 @@ ul.skills_list li i {
         right: 0;
         left: 0;
     }
+    ul.skills_list.contact li>i {
+        font-size: 20px;
+        margin-left: -20px;
+        margin-right: -5px;
+    }
+    ul.skills_list.contact li span, ul.skills_list.contact li p {
+        font-size: 13px;
+    }
 }
 @media (max-width: 720px) {      
     .skill_level_bar {
