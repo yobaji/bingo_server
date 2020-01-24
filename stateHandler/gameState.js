@@ -150,6 +150,12 @@ class State extends Schema {
                 if (!this.gameStarted) {
                     room.unlock();
                     this.restartGame(room,false);
+                    if(this.onlinePlayersCount == 1){
+                        var onlyPlayerClientId = this.clientIDS[0];
+                        if(this.players[onlyPlayerClientId]){
+                            this.players[onlyPlayerClientId].winCount = 0;   
+                        }                 
+                    }
                 }
                 break;
             case "REMOVE_PLAYER":
