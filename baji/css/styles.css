@@ -5,12 +5,12 @@ body {
   color: #ccc !important;
 }
 a {
-  color: #fff !important;
+  color: #ccc !important;
   text-decoration: underline !important;
   font-style: italic;
 }
 .btn-link {
-  color: #fff !important;
+  color: #ccc !important;
   text-decoration: underline !important;
   font-style: italic;
 }
