@@ -172,6 +172,7 @@ class State extends Schema {
                 }
                 break;
             case "POP_EMOJI":
+                message.emojiName = message.emojiName.substr(0, 25);
                 room.broadcast({ type: "POP_EMOJI", emojiName: message.emojiName, playerId: clientId }, { except: clientObject });
                 break;
             default:
